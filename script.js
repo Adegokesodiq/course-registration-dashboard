@@ -49,6 +49,7 @@ function displayCourses() {
     tableBody.appendChild(row);
   });
 }
+
 // -----------------------------
 // PART B: API Dashboard
 // -----------------------------
