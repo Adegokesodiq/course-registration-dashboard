@@ -49,3 +49,39 @@ function displayCourses() {
     tableBody.appendChild(row);
   });
 }
+// -----------------------------
+// PART B: API Dashboard
+// -----------------------------
+
+const refreshBtn = document.getElementById("refreshData");
+const apiStatus = document.getElementById("apiStatus");
+const countryData = document.getElementById("countryData");
+
+async function loadCountries() {
+  apiStatus.textContent = "Loading data...";
+  countryData.innerHTML = "";
+  
+  try {
+    const res = await fetch("https://restcountries.com/v3.1/all");
+    const data = await res.json();
+    
+    apiStatus.textContent = "";
+    
+    data.slice(0,5).forEach(country => {
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <strong>${country.name.common}</strong><br>
+        Capital: ${country.capital ? country.capital[0] : "N/A"}<br>
+        Population: ${country.population.toLocaleString()}
+        <hr>
+      `;
+      countryData.appendChild(div);
+    });
+  } catch(err) {
+    apiStatus.textContent = "Error loading data";
+  }
+}
+
+// Initial load
+loadCountries();
+refreshBtn.addEventListener("click", loadCountries);
