@@ -19,3 +19,12 @@ th, td {
   border: 1px solid #ddd;
   padding: 8px;
 }
+@media (max-width: 600px) {
+  input, button, table {
+    width: 100%;
+  }
+
+  table {
+    font-size: 14px;
+  }
+}
