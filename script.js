@@ -1,4 +1,8 @@
-// Get references
+// -----------------------------
+// PART A: Course Registration
+// -----------------------------
+
+// Get references to form and table
 const form = document.getElementById("courseForm");
 const tableBody = document.getElementById("courseTable");
 
@@ -15,17 +19,18 @@ form.addEventListener("submit", function(e) {
   const code = document.getElementById("code").value;
   const title = document.getElementById("title").value;
 
-  // Validate matric number
+  // Validate matric number format: LCU/XX/YYYY/NNN
   const matricPattern = /^LCU\/[A-Z]{2}\/\d{4}\/\d{3}$/;
   if (!matricPattern.test(matric)) {
     alert("Matric number format invalid! Use: LCU/CS/2023/001");
     return;
   }
 
+  // Add course to array
   const course = { name, matric, code, title };
   courses.push(course);
 
-  // Save to localStorage
+  // Save courses to localStorage
   localStorage.setItem("courses", JSON.stringify(courses));
 
   // Update table
@@ -58,16 +63,18 @@ const refreshBtn = document.getElementById("refreshData");
 const apiStatus = document.getElementById("apiStatus");
 const countryData = document.getElementById("countryData");
 
+// Function to fetch countries and display
 async function loadCountries() {
   apiStatus.textContent = "Loading data...";
   countryData.innerHTML = "";
-  
+
   try {
     const res = await fetch("https://restcountries.com/v3.1/all");
     const data = await res.json();
-    
+
     apiStatus.textContent = "";
-    
+
+    // Show first 5 countries
     data.slice(0,5).forEach(country => {
       const div = document.createElement("div");
       div.innerHTML = `
@@ -83,6 +90,8 @@ async function loadCountries() {
   }
 }
 
-// Initial load
+// Initial load of countries
 loadCountries();
+
+// Refresh button click
 refreshBtn.addEventListener("click", loadCountries);
